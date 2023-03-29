@@ -74,6 +74,64 @@ INSERT INTO `movies` VALUES (1,'Pulp Fiction','Crimen','https://pics.filmaffinit
 UNLOCK TABLES;
 
 --
+-- Table structure for table `rel_movies_actors`
+--
+
+DROP TABLE IF EXISTS `rel_movies_actors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `rel_movies_actors` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fkActors` int DEFAULT NULL,
+  `fkMovie` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkActors` (`fkActors`),
+  KEY `fkMovie` (`fkMovie`),
+  CONSTRAINT `rel_movies_actors_ibfk_1` FOREIGN KEY (`fkActors`) REFERENCES `actors` (`idActor`),
+  CONSTRAINT `rel_movies_actors_ibfk_2` FOREIGN KEY (`fkMovie`) REFERENCES `movies` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rel_movies_actors`
+--
+
+LOCK TABLES `rel_movies_actors` WRITE;
+/*!40000 ALTER TABLE `rel_movies_actors` DISABLE KEYS */;
+INSERT INTO `rel_movies_actors` VALUES (1,3,1),(2,3,2),(3,2,3),(4,1,4);
+/*!40000 ALTER TABLE `rel_movies_actors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rel_movies_users`
+--
+
+DROP TABLE IF EXISTS `rel_movies_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `rel_movies_users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fkUsers` int DEFAULT NULL,
+  `fkMovie` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkUsers` (`fkUsers`),
+  KEY `fkMovie` (`fkMovie`),
+  CONSTRAINT `rel_movies_users_ibfk_1` FOREIGN KEY (`fkUsers`) REFERENCES `users` (`idUsers`),
+  CONSTRAINT `rel_movies_users_ibfk_2` FOREIGN KEY (`fkMovie`) REFERENCES `movies` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rel_movies_users`
+--
+
+LOCK TABLES `rel_movies_users` WRITE;
+/*!40000 ALTER TABLE `rel_movies_users` DISABLE KEYS */;
+INSERT INTO `rel_movies_users` VALUES (4,2,1),(5,2,2),(6,3,2);
+/*!40000 ALTER TABLE `rel_movies_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -110,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-28 11:20:58
+-- Dump completed on 2023-03-29 11:23:41
