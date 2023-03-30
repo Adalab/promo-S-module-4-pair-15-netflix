@@ -6,7 +6,16 @@ const MoviesList = props => {
   };
 
   const renderMovies = () => {
-    return props.movies.map(movie => {
+    return props.movies
+      .filter(movie => {
+        if (props.allMoviesOptionGender === "") { return true }
+        else {
+          return props.allMoviesOptionGender === movie.gender
+        }
+      }
+      )
+
+      .map(movie => {
       return (
         <li key={movie.id} className="card">
           <img className="card__img" src={movie.image} alt={`Carátula de ${movie.title}`} />

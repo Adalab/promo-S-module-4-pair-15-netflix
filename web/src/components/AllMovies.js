@@ -56,7 +56,8 @@ const AllMovies = props => {
         </div>
       </form>
 
-      <MoviesList movies={props.movies} />
+      <MoviesList movies={props.movies}
+        allMoviesOptionGender={props.allMoviesOptionGender} />
     </section>
   );
 };
