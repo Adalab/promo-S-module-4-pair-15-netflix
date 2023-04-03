@@ -21,7 +21,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Arrebato666',
+    password: 'Bartolo_12',
   })
   .then(conn => {
     connection = conn;
@@ -39,18 +39,20 @@ mysql
   });
 
 server.get('/movies', (req, res) => {
-  console.log('Pidiendo a la base de datos información de netflix.');
+  const genreFilterParam = req.query.gender;
   connection
-    .query('SELECT * FROM movies')
+    .query('SELECT * FROM movies WHERE gender = ?', [genreFilterParam])
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       results.forEach((result) => {
         console.log(result);
+        console.log(genreFilterParam);
       });
 
       res.json({
-  success: true,
-  movies:  results
+        success: true,
+        movies: results
+
 });
     })
     .catch((err) => {
