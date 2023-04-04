@@ -24,8 +24,8 @@ const AllMovies = props => {
             onChange={handleOptions}
           >
             <option value="">Todas</option>
-            <option value="drama">Drama</option>
-            <option value="comedia">Comedia</option>
+            <option value="Drama">Drama</option>
+            <option value="Comedia">Comedia</option>
           </select>
         </div>
 

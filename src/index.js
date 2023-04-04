@@ -37,28 +37,46 @@ mysql
   .catch((err) => {
     console.error('Error de configuración: ' + err.stack);
   });
-
+// le puse la condicion si en gender '' que muestre todas y ademas como es un query los generos estaban en mayusculas tuve que cambiarlos nuevamente en el html.
 server.get('/movies', (req, res) => {
   const genreFilterParam = req.query.gender;
-  connection
-    .query('SELECT * FROM movies WHERE gender = ?', [genreFilterParam])
+  if (genreFilterParam === '') {
+    connection
+      .query('SELECT * FROM movies')
+      .then(([results, fields]) => {
+        console.log('Información recuperada:');
+        results.forEach((result) => {
+          console.log(result);
+          console.log(genreFilterParam);
+        });
+        res.json({
+          success: true,
+          movies: results
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    connection
+      .query('SELECT * FROM movies WHERE gender = ? ', [genreFilterParam])
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       results.forEach((result) => {
         console.log(result);
         console.log(genreFilterParam);
       });
-
       res.json({
         success: true,
         movies: results
-
 });
     })
     .catch((err) => {
       throw err;
     });
+  }
 });
+
 
 // server.post('/movies', (req, res) => {
 //   console.log('subiendo a la base de datos una peli.');
