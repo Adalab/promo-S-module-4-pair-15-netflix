@@ -11,6 +11,7 @@ import SignUp from './SignUp';
 import apiMovies from '../services/api-movies';
 import apiUser from '../services/api-user';
 import router from '../services/router';
+import ls from '../services/local-storage';
 
 const App = () => {
   // state: user
@@ -49,11 +50,15 @@ const App = () => {
   Como queremos que el back devuelva los datos de una usuaria getProfileFromApi recibe el userId.
   */
   useEffect(() => {
+    
     if (userId !== '') {
       apiUser.getProfileFromApi(userId).then(response => {
         setUserName(response.name);
         setUserEmail(response.email);
         setUserPassword(response.password);
+        ls.set('email', response.email);
+      ls.set('password', response.password);
+      ls.set('id', userId);
       });
     }
   }, [userId]);

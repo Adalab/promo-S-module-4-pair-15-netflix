@@ -21,7 +21,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Bartolo_12',
+    password: 'Arrebato666',
   })
   .then(conn => {
     connection = conn;
@@ -95,23 +95,49 @@ server.get('/movies', (req, res) => {
 //       throw err;
 //     });
 // });
-server.post('/movies', (req, res) => {
-  console.log('Subiendo a la base de datos una película.');
+// server.post('/movies', (req, res) => {
+//   console.log('Subiendo a la base de datos una película.');
 
-  const { title, gender, image, categories, yearMovie } = req.body;
+//   const { title, gender, image, categories, yearMovie } = req.body;
 
-  connection.query(
-    `INSERT INTO movies (title, gender, image, categories, yearMovie)
-     VALUES (?, ?, ?, ?, ?)`,
-    [title, gender, image, categories, yearMovie],
-    (error, results, fields) => {
-      if (error) {
-        console.error('Error al insertar la película: ', error);
-        res.status(500).json({ error: 'Error al insertar la película.' });
+//   connection.query(
+//     `INSERT INTO movies (title, gender, image, categories, yearMovie)
+//      VALUES (?, ?, ?, ?, ?)`,
+//     [title, gender, image, categories, yearMovie],
+//     (error, results, fields) => {
+//       if (error) {
+//         console.error('Error al insertar la película: ', error);
+//         res.status(500).json({ error: 'Error al insertar la película.' });
+//       } else {
+//         console.log('Película insertada correctamente.');
+//         res.json(results);
+//       }
+//     }
+//   );
+// });
+
+server.post("/login", (req, res) => {
+  console.log("Body.", req.body.email);
+  console.log("Body.", req.body.password);
+
+  console.log("Pidiendo a la base de datos información de los usuarios.");
+  connection
+    .query(`SELECT * FROM users WHERE email= ? and passwordMovies= ?`, [
+      req.body.email,
+      req.body.password,
+    ])
+    .then(([results, fields]) => {
+      console.log(results);
+      if (results.length) {
+        res.json({
+          success: true,
+          userId: "id_de_la_usuaria_encontrada",
+        });
       } else {
-        console.log('Película insertada correctamente.');
-        res.json(results);
+        res.json({
+          success: false,
+          errorMessage: "Usuaria/o no encontrada/o",
+        });
       }
-    }
-  );
+          });
 });

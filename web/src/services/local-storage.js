@@ -11,9 +11,9 @@ const set = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-const objToExport = {
+const ls = {
   get: get,
   set: set
 };
 
-export default objToExport;
+export default ls;
