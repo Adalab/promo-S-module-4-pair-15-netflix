@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
+
+
 // create and config server
 const server = express();
 server.use(cors());
 server.use(express.json());
+
 
 // init express aplication
 const serverPort = 4000;
@@ -21,7 +24,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Arrebato666',
+    password: 'Bartolo_12',
   })
   .then(conn => {
     connection = conn;
@@ -116,6 +119,7 @@ server.get('/movies', (req, res) => {
 //   );
 // });
 
+
 server.post("/login", (req, res) => {
   console.log("Body.", req.body.email);
   console.log("Body.", req.body.password);
@@ -127,11 +131,11 @@ server.post("/login", (req, res) => {
       req.body.password,
     ])
     .then(([results, fields]) => {
-      console.log(results);
+      console.log(results[0].idUsers);
       if (results.length) {
         res.json({
           success: true,
-          userId: "id_de_la_usuaria_encontrada",
+          userId: results[0].idUsers
         });
       } else {
         res.json({
@@ -141,3 +145,19 @@ server.post("/login", (req, res) => {
       }
           });
 });
+
+// public
+const staticServerPathAdmin = './src/public-react';
+server.use(express.static(staticServerPathAdmin));
+
+
+
+// error
+/*
+app.get('*', (req, res) => {
+  //res.send('Error 404');
+
+  const absolutePathToError404 = path.join(__dirname, '../public_vanilla/error404.html');
+
+  res.status(404).sendFile(absolutePathToError404);
+})*/

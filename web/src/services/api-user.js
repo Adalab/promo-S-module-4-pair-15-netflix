@@ -38,17 +38,24 @@ const sendSingUpToApi = data => {
 const sendProfileToApi = (userId, data) => {
   console.log('Se están enviando datos al profile:', userId, data);
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  return fetch('//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/empty.json');
+  return fetch('http://localhost:4000/login');
 };
 
 const getProfileFromApi = userId => {
   console.log('Se están pidiendo datos del profile del usuario:', userId);
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  return fetch('http://localhost:4000/login')
+  return fetch('')
     .then(response => response.json())
     .then(() => {
       // CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA
-      return userId;
+      const { name, email, password } = userId; // obtenemos los valores de la respuesta del servidor
+      return {
+        success: true,
+        name,
+        email,
+        password,
+        userId // agregamos el valor de userId a la respuesta
+      };
     });
 };
 

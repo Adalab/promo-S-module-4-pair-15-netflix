@@ -15,7 +15,7 @@ import ls from '../services/local-storage';
 
 const App = () => {
   // state: user
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(ls.get('userId' || ''));
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -49,6 +49,7 @@ const App = () => {
   Se ejecuta cuando userId cambian de valor, es decir, cuando pasa de un string vacío a un strin relleno con el id de la usuaria.
   Como queremos que el back devuelva los datos de una usuaria getProfileFromApi recibe el userId.
   */
+
   useEffect(() => {
     
     if (userId !== '') {
@@ -56,12 +57,10 @@ const App = () => {
         setUserName(response.name);
         setUserEmail(response.email);
         setUserPassword(response.password);
-        ls.set('email', response.email);
-      ls.set('password', response.password);
-      ls.set('id', userId);
       });
     }
   }, [userId]);
+
 
   /*
   useEffect: obtener las películas de la usuaria.
@@ -88,6 +87,7 @@ const App = () => {
     apiUser.sendLoginToApi(loginData).then(response => {
       if (response.success === true) {
         setUserId(response.userId);
+        ls.set('userId', userId);
         // Si la usuaria introduce bien sus datos redireccionamos desde la página de login al inicio de la página
         router.redirect('/');
       } else {
