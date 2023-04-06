@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
-
-
 // create and config server
 const server = express();
 server.use(cors());
