@@ -15,7 +15,7 @@ import ls from '../services/local-storage';
 
 const App = () => {
   // state: user
-  const [userId, setUserId] = useState(ls.get('userId' || ''));
+  const [userId, setUserId] = useState((ls.get('userId') || ''));
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -31,7 +31,7 @@ const App = () => {
 
   /*
   useEffect: obtener las películas del API.
-  Se ejecuta cuando allMoviesOptionGender o allMoviesOptionSort cambian de valor.
+  Se e  alor.
   Como queremos que el back devuelva las películas filtradas por género y ordenadas por nombre estamos pasando a getMoviesFromApi estos dos valores.
   */
   useEffect(() => {
@@ -87,8 +87,8 @@ const App = () => {
     apiUser.sendLoginToApi(loginData).then(response => {
       if (response.success === true) {
         setUserId(response.userId);
-        ls.set('userId', userId);
-        // Si la usuaria introduce bien sus datos redireccionamos desde la página de login al inicio de la página
+        console.log(response.userId);
+        ls.set('userId', response.userId);
         router.redirect('/');
       } else {
         // Si la usuaria introduce mal sus datos guardamos el error que nos devuelve el API para que se pinte en la página

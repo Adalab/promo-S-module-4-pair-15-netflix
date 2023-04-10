@@ -25,7 +25,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Arrebato666',
+    password: 'Bartolo_12',
   })
   .then(conn => {
     connection = conn;
@@ -132,8 +132,9 @@ server.post("/login", (req, res) => {
       req.body.password,
     ])
     .then(([results, fields]) => {
+      console.log(results);
       console.log(results[0].idUsers);
-      if (results.length) {
+      if (results.length > 0) {
         res.json({
           success: true,
           userId: results[0].idUsers
