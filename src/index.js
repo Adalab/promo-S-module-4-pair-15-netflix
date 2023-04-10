@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
+
 // create and config server
 const server = express();
 server.use(cors());
 server.use(express.json());
+
+server.set('view engine', 'ejs');
 
 
 // init express aplication
@@ -22,7 +25,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Bartolo_12',
+    password: 'Arrebato666',
   })
   .then(conn => {
     connection = conn;
@@ -144,9 +147,29 @@ server.post("/login", (req, res) => {
           });
 });
 
+server.get('/movie/:movieId', (req, res) => {
+
+  const movieId = req.params.movieId;
+    const sql = "SELECT * FROM movies WHERE movies.id=?"
+    
+    connection
+    .query(sql, [movieId])
+    .then(([results, fields]) => {
+      console.log(results)
+       res.render("movie", results[0]);
+    })
+   .catch((err) => {
+   throw err;
+   });
+   
+   });
+
+
 // public
 const staticServerPathAdmin = './src/public-react';
 server.use(express.static(staticServerPathAdmin));
+const staticServerImages1 = './src/public-movies-images';
+server.use(express.static(staticServerImages1));
 
 
 
