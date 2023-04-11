@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const actorsSchema = new Schema(
   {
-    name: String,
-    lastname: String,
+    nameActor: String,
+    lastnameActor: String,
     country: String,
     birthday: String,
   },

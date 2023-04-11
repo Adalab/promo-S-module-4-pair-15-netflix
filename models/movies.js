@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 const moviesSchema = new Schema(
   {
     title: String,
-    genre: String,
+    gender: String,
     image: String,
-    category: String,
-    date: String,
+    categorie: String,
+    yearMovies: String,
   },
   { collection: 'movies' }
 );

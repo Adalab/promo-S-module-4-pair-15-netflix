@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const dbConnect = require('../config/connection');
+dbConnect();
+
+const Movies = require('../models/movies');
 
 
 // create and config server
@@ -17,7 +21,7 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-
+/*
 let connection;  // Aquí almacenaremos la conexión a la base de datos
 
 mysql
@@ -119,7 +123,7 @@ server.get('/movies', (req, res) => {
 //     }
 //   );
 // });
-
+*/
 
 server.post("/login", (req, res) => {
   console.log("Body.", req.body.email);
@@ -173,7 +177,6 @@ const staticServerImages1 = './src/public-movies-images';
 server.use(express.static(staticServerImages1));
 
 
-
 // error
 /*
 app.get('*', (req, res) => {
@@ -183,3 +186,36 @@ app.get('*', (req, res) => {
 
   res.status(404).sendFile(absolutePathToError404);
 })*/
+
+
+// MONGO
+
+server.get('/movies_all_mongo/:gender', (req, res) => {
+  const { genderFilterParam } = req.params;
+  if (genderFilterParam === 'Todas') {
+    Movies.find({})
+      .then((document) => {
+        console.log(document);
+        res.json({
+          success: true,
+          movies: document
+        });
+      })
+      .catch((error) => {
+        throw error;
+      });
+  } else {
+    Movies.find({ gender: genderFilterParam })
+      .then((document) => {
+        console.log(document);
+        res.json({
+          success: true,
+          movies: document
+        });
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+});
+
