@@ -190,32 +190,33 @@ app.get('*', (req, res) => {
 
 // MONGO
 
-server.get('/movies_all_mongo/:gender', (req, res) => {
-  const { genderFilterParam } = req.params;
-  if (genderFilterParam === 'Todas') {
-    Movies.find({})
-      .then((document) => {
-        console.log(document);
-        res.json({
-          success: true,
-          movies: document
-        });
-      })
-      .catch((error) => {
-        throw error;
-      });
-  } else {
-    Movies.find({ gender: genderFilterParam })
-      .then((document) => {
-        console.log(document);
-        res.json({
-          success: true,
-          movies: document
-        });
-      })
-      .catch((error) => {
-        throw error;
-      });
+
+server.get('/movies_all_mongo', (req, res) => {
+  
+  console.log(req.query.gender)
+  console.log(req.query.sort)
+
+  const conditions = {};
+
+  if( req.query.gender ) {
+    conditions.gender= req.query.gender;
   }
-});
+
+  
+  Movies.find(conditions)
+    .sort({ title: req.query.sort === 'asc' ? 1 : -1 })
+    .then((docs) => {
+      console.log(docs);
+      res.json({
+        success: true,
+        movies: docs
+      });
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+);
+
+
 
