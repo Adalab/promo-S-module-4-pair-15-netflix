@@ -71,9 +71,13 @@ const App = () => {
     if (userId !== '') {
       apiUser.getUserMoviesFromApi(userId).then(response => {
         setUserMovies(response.movies);
+        console.log(userMovies);
+        console.log(response.movies);
       });
-    }
+    } 
   }, [userId]);
+
+  console.log(userMovies);
 
   /*
   Event: enviar datos del login al API.
@@ -160,6 +164,7 @@ const App = () => {
     }
   };
 
+
   // render
 
   return (
@@ -181,7 +186,11 @@ const App = () => {
           } />
 
         <Route path="/my-movies" element={
-          <MyMovies movies={userMovies} />
+          <MyMovies movies={userMovies}
+          // allMoviesOptionGender={allMoviesOptionGender}
+          // allMoviesOptionSort={allMoviesOptionSort}
+          // handleAllMoviesOptions={handleAllMoviesOptions}
+          />
         } />
 
         <Route path="/login"

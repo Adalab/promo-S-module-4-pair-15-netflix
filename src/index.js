@@ -5,6 +5,9 @@ const dbConnect = require('../config/connection');
 dbConnect();
 
 const Movies = require('../models/movies');
+const Actor = require('../models/actors')
+const Favorite = require('../models/favorites')
+const User = require('../models/users')
 
 
 // create and config server
@@ -21,6 +24,7 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
+// MYSQL CONNECTION
 /*
 let connection;  // Aquí almacenaremos la conexión a la base de datos
 
@@ -45,7 +49,9 @@ mysql
   .catch((err) => {
     console.error('Error de configuración: ' + err.stack);
   });
-// le puse la condicion si en gender '' que muestre todas y ademas como es un query los generos estaban en mayusculas tuve que cambiarlos nuevamente en el html.
+
+// GET ALL MOVIES SQL
+
 server.get('/movies', (req, res) => {
   const genreFilterParam = req.query.gender;
   if (genreFilterParam === '') {
@@ -85,6 +91,7 @@ server.get('/movies', (req, res) => {
   }
 });
 
+// AGREGAR POST MOVIES SQL
 
 // server.post('/movies', (req, res) => {
 //   console.log('subiendo a la base de datos una peli.');
@@ -124,6 +131,9 @@ server.get('/movies', (req, res) => {
 //   );
 // });
 */
+/*
+
+//LOGIN MYSQL
 
 server.post("/login", (req, res) => {
   console.log("Body.", req.body.email);
@@ -151,7 +161,9 @@ server.post("/login", (req, res) => {
       }
           });
 });
-
+*/
+/*
+// MOVIE ID DETAIL SQL
 server.get('/movie/:movieId', (req, res) => {
 
   const movieId = req.params.movieId;
@@ -168,7 +180,7 @@ server.get('/movie/:movieId', (req, res) => {
    });
    
    });
-
+*/
 
 // public
 const staticServerPathAdmin = './src/public-react';
@@ -177,20 +189,11 @@ const staticServerImages1 = './src/public-movies-images';
 server.use(express.static(staticServerImages1));
 
 
-// error
-/*
-app.get('*', (req, res) => {
-  //res.send('Error 404');
-
-  const absolutePathToError404 = path.join(__dirname, '../public_vanilla/error404.html');
-
-  res.status(404).sendFile(absolutePathToError404);
-})*/
 
 
 // MONGO
 
-
+// MONGO GET ALL MOVIES
 server.get('/movies_all_mongo', (req, res) => {
   
   console.log(req.query.gender)
@@ -206,7 +209,6 @@ server.get('/movies_all_mongo', (req, res) => {
   Movies.find(conditions)
     .sort({ title: req.query.sort === 'asc' ? 1 : -1 })
     .then((docs) => {
-      console.log(docs);
       res.json({
         success: true,
         movies: docs
@@ -218,5 +220,99 @@ server.get('/movies_all_mongo', (req, res) => {
 }
 );
 
+// MONG GET MOVIE DETAIL ID
+server.get('/movie/:movieId', (req, res) => {
+
+  const { movieId } = req.params;
+  Movies.find({ _id: movieId })
+    .then((docs) => {
+      console.log(docs);
+      res.render('movie', docs[0]);
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+// MONGO POST ADD MOVIE
+server.post('/favorites-add', (req, res) => {
+  let idMovie = req.body.idMovie;
+  let idUser = req.body.idUser;
+  let score = req.body.score;
+
+  const favorite = new Favorite(
+    {
+      movies: idMovie,
+      users: idUser,
+      score: score,
+    })
+  Favorite
+    .create(favorite)
+    .then((docs) => {
+      res.json(docs);
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+// json
+/*
+{
+  "idMovie" : "64345c831380b912271daf2f",
+    "idUser" : "64345e451380b912271daf34",
+      "score" : 10
+}
+*/
+
+// FAVORITE USER MOVIES
+server.get('/favorites-list/:user', (req, res) => {
+
+  Favorite.find({ users: req.params.user }, 'movies')
+    .populate({
+      path: 'movies',
+      select: 'title gender image categorie yearMovies'
+    })
+    .then((response) => {
+      const movies = response.map(favorite => favorite.movies)
+      res.json(movies)
+      console.log(movies);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+});
+
+// login Mongo
+server.post("/login", (req, res) => {
+  console.log("Body.", req.body.email);
+  console.log("Body.", req.body.password);
+  console.log("Pidiendo a la base de datos información de los usuarios.");
+
+  User.findOne({ email: req.body.email, passwordMovies: req.body.password })
+
+    .then((results) => {
+      if (results) {
+        res.json({
+          success: true,
+          userId: results._id
+        });
+      } else {
+        res.json({
+          success: false,
+          errorMessage: "Usuaria/o no encontrada/o",
+        });
+      }
+    });
+});
 
 
+// error
+/*
+server.get('*', (req, res) => {
+  //res.send('Error 404');
+  const absolutePathToError404 = path.join(__dirname, '../public-react/error404.html');
+  res.status(404).sendFile(absolutePathToError404);
+})
+*/

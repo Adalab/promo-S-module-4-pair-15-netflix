@@ -29,7 +29,7 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 - [x] 2. Arranca el backend
 - [x] 3. Arranca el front end
 - [x] 4. Prueba el proyecto
-- [ ] 5. Entiende el código del proyecto
+- [x] 5. Entiende el código del proyecto
 
 **4.5 Express JS I:**
 
@@ -52,7 +52,7 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
   - [x] 2. Obtener la película
   - [x] 3. Renderiza una página cualquiera
   - [x] 4. Renderiza la película
-  - [ ] 5. Añade estilos
+  - [x] 5. Añade estilos
 
 **4.8 Mongo I:**
 
@@ -68,8 +68,8 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 **4.10 Mongo III:**
 
-- [ ] 1. Insertar Películas favoritas
-- [ ] 3. Obtener Películas favoritas
+- [x] 1. Insertar Películas favoritas
+- [x] 3. Obtener Películas favoritas
 
 **4.11 Docker:**
 
